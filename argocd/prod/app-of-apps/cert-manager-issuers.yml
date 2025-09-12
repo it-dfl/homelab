@@ -5,7 +5,8 @@ kind: Application
 metadata:
   name: cert-manager-issuers
   namespace: argocd
-  argocd.argoproj.io/sync-wave: "2"
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   project: default
   source:
