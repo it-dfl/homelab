@@ -4,7 +4,9 @@ metadata:
   name: le-prod
 spec:
   acme:
-    email: {{ .Values.email }}
+    {{- if .Values.email }}
+    email: {{ .Values.email | quote }}
+    {{- end }}
     privateKeySecretRef:
       name: letsencrypt-prod
     server: https://acme-v02.api.letsencrypt.org/directory

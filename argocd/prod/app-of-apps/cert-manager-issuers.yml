@@ -12,11 +12,6 @@ spec:
     repoURL: https://github.com/it-dfl/homelab.git
     targetRevision: HEAD
     path: argocd/prod/cert-manager-issuers
-    helm:
-      valuesFrom:
-        - secretKeyRef:
-            name: cert-manager-issuers-values # This secret must be created in advance and contain the email address
-            key: values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager
