@@ -1,0 +1,27 @@
+---
+# Installs cert manager via the official Helm chart
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+  argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  source:
+    chart: cert-manager
+    helm:
+      parameters:
+        - name: installCRDs
+          value: "true"
+    repoURL: oci://quay.io/jetstack/charts/cert-manager
+    targetRevision: v1.18.2
+  destination:
+    namespace: cert-manager
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

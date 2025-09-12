@@ -1,0 +1,120 @@
+---
+# Example values for Talos/Proxmox Homelab Kubernetes setup
+
+proxmox_server: "proxmox.my.domain"
+proxmox_api_user: "root@pam"
+proxmox_api_token_id: "root_id_token"
+proxmox_api_token_secret: "{{ vault_proxmox_api_token_secret }}"
+
+cluster_name: "k8s.my.domain"
+cluster_shared_ip: 192.168.10.10
+mgmt_vlan_id: 10
+mgmt_network: "192.168.10.0/24"
+mgmt_gateway: "192.168.10.1"
+
+talos_cpu_type: "host"
+
+k8s_vmbr: "vmbr0"
+
+masters:
+  - name: master1
+    fqdn: master1.my.domain
+    ip: 192.168.10.11
+    cores: 2
+    memory: 4096
+    disk: 20
+  - name: master2
+    fqdn: master2.my.domain
+    ip: 192.168.10.12
+    cores: 2
+    memory: 4096
+    disk: 20
+  - name: master3
+    fqdn: master3.my.domain
+    ip: 192.168.10.13
+    cores: 2
+    memory: 4096
+    disk: 20
+
+workers:
+  - name: worker1
+    fqdn: worker1.my.domain
+    ip: 192.168.10.21
+    cores: 8
+    memory: 16384
+    disk: 20
+    storage_disk: 100
+    storage_disk_encryption_key: "{{ vault_storage_disk_encryption_key }}"
+  - name: worker2
+    fqdn: worker2.my.domain
+    ip: 192.168.10.22
+    cores: 10
+    memory: 16384
+    disk: 20
+    storage_disk: 100
+    storage_disk_encryption_key: "{{ vault_storage_disk_encryption_key }}"
+
+vlan_config:
+  - name: vlan20
+    type: static
+    vlan_id: 20
+    address: "192.168.20.100/24" # Those values are currently mainly there for documentation purposes as they will be rolled out via argocd
+    gateway: "192.168.20.1"      # Those values are currently mainly there for documentation purposes as they will be rolled out via argocd
+  - name: vlan30
+    type: static
+    vlan_id: 30
+    address: "192.168.30.100/24" # Those values are currently mainly there for documentation purposes as they will be rolled out via argocd
+    gateway: "192.168.30.1"      # Those values are currently mainly there for documentation purposes as they will be rolled out via argocd
+
+nameservers:
+  - 192.168.10.1
+
+timeservers:
+  - 192.168.10.1
+
+# Static resources to create before ArgoCD is installed
+static_resources:
+  - name: argocd-ns
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: argocd
+  - name: cert-manager-issuers-values-secret
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: cert-manager-issuers-values
+        namespace: argocd
+      type: Opaque
+      stringData:
+        values.yaml: |
+          email: "my_letsencrypt@email.com"
+  - name: cert-manager-ns
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: cert-manager
+  - name: cloudflare-api-token-secret
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: cloudflare-api-token-secret
+        namespace: cert-manager
+      type: Opaque
+      stringData:
+        api-token: "{{ vault_cloudflare_api_token }}"
+
+# ArgoCD configuration
+install_argocd: true
+argocd_repo_url: "https://github.com/your_account/your_repo.git"
+argocd_repo_type: "git"
+argocd_repo_revision: "HEAD"
+argocd_app_name: "app-of-apps"
+argocd_app_namespace: "argocd"
+argocd_app_path: "argocd/prod/app-of-apps"
+argocd_app_dest_namespace: "argocd"
+argocd_app_dest_server: "https://kubernetes.default.svc"

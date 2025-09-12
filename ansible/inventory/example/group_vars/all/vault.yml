@@ -1,0 +1,4 @@
+# This file would be encrypted with ansible-vault
+vault_proxmox_api_token_secret: "SECRET"
+vault_storage_disk_encryption_key: "SECRET"
+vault_cloudflare_api_token: "SECRET"

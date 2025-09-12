@@ -1,0 +1,8 @@
+# Python packages required by the talos_proxmox role (control host)
+requests
+kubernetes>=24.2.0
+PyYAML>=3.11
+jsonpatch
+proxmoxer
+ansible-core>=2.12
+jmespath

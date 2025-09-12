@@ -1,0 +1,6 @@
+apiVersion: v2
+name: cert-manager-issuers
+description: A Helm chart to deploy cert-manager cluster-issuers for Let's Encrypt
+type: application
+version: 0.1.0
+appVersion: "1.0"

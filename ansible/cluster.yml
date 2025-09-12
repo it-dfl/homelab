@@ -1,0 +1,7 @@
+---
+# Ansible playbook to manage the Talos cluster on Proxmox. 
+# If no tags are given the default is to fully install a talos cluster from zero.
+- hosts: localhost
+  gather_facts: true
+  roles:
+    - role: talos_proxmox

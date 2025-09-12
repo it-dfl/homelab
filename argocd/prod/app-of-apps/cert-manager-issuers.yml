@@ -1,0 +1,28 @@
+---
+# Sets up the cert-manager lets encrypt cluster issuers
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager-issuers
+  namespace: argocd
+  argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/it-dfl/homelab.git
+    targetRevision: HEAD
+    path: argocd/prod/cert-manager-issuers
+    helm:
+      valuesFrom:
+        - secretKeyRef:
+            name: cert-manager-issuers-values # This secret must be created in advance and contain the email address
+            key: values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
