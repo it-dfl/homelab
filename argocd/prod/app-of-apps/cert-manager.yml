@@ -15,6 +15,7 @@ spec:
         - name: installCRDs
           value: "true"
     repoURL: oci://quay.io/jetstack/charts/cert-manager
+    path: .
     targetRevision: v1.18.2
   destination:
     namespace: cert-manager
