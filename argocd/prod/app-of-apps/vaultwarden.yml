@@ -25,11 +25,13 @@ spec:
               size: "20Gi"
               class: "longhorn"
               keepPvc: true
+              accessMode: ReadWriteOnce
             attachments:
               name: "vaultwarden-files"
               size: "20Gi"
               class: "longhorn"
               keepPvc: true
+              accessMode: ReadWriteOnce
         valueFiles: # Multus CNI, smtp and domain are in the private repo
           - $private_repo/argocd/prod/app-of-apps/vaultwarden.yaml
     - repoURL: https://github.com/it-dfl/homelab-private.git
