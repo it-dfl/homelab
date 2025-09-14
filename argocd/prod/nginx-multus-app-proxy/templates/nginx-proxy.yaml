@@ -17,13 +17,13 @@ spec:
       labels:
         app: "{{ .Values.app_name }}-proxy"
       annotations:
-        k8s.v1.cni.cncf.io/networks: "{{ .Values.multus.networkAttachmentName | default (printf \"%s-static\" .Values.app_name) }}"
+        k8s.v1.cni.cncf.io/networks: "{{ printf \"%s-static\" .Values.app_name }}"
     spec:
       containers:
         - name: "{{ .Values.app_name }}-proxy-container"
           image: "nginx:{{ .Values.nginx_version }}"
           ports:
-            - name: http
+            - name: https
               containerPort: 80
             - name: https
               containerPort: 443

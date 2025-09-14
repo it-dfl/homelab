@@ -3,7 +3,7 @@
 apiVersion: k8s.cni.cncf.io/v1
 kind: NetworkAttachmentDefinition
 metadata:
-  name: "{{ .Values.multus.networkAttachmentName | default (printf \"%s-static\" .Values.app_name) }}"
+  name: "{{ printf \"%s-static\" .Values.app_name }}"
   namespace: "{{ .Release.Namespace }}"
 spec:
   config: |

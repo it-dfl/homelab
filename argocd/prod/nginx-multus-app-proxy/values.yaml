@@ -1,9 +1,27 @@
+# Core
 app_name: my_app
 nginx_version: latest
 
+# Where to proxy traffic to (inside the cluster)
+backend:
+  serviceName: my-app-svc   # e.g., ClusterIP service name
+  servicePort: 80
+
+# The L2/L3 settings used by the NAD's static IPAM
+# Assumes you already trunk VLAN to nodes and have <interface_name>.<vlan_id> present
 interface_name: eth0
 vlan_id: 1
 proxy_address: 192.168.100.100
 proxy_cidr: 24
 proxy_gateway: 192.168.100.1
-proxy_reroute_network: 19.168.100.0/24
+proxy_reroute_network: 192.168.100.0/24
+
+# TLS via cert-manager
+tls:
+  clusterIssuerName: letsencrypt-prod
+  hosts:
+    - myapp.example.com
+
+# Optional: tweak NGINX
+nginx:
+  clientMaxBodySize: 100M
