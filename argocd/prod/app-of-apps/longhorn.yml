@@ -4,7 +4,7 @@ metadata:
   name: longhorn
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-wave: "5"
 spec:
   project: default
   sources:
@@ -18,6 +18,11 @@ spec:
             defaultReplicaCount: 2
           preUpgradeChecker:
             jobEnabled: false
+        valuesFiles: # Ingress settings are in the private repo
+          - $private_repo/argocd/prod/app-of-apps/longhorn-values.yaml
+    - repoURL: https://github.com/it-dfl/homelab-private.git
+      targetRevision: HEAD
+      ref: private_repo
   destination:
     server: https://kubernetes.default.svc
     namespace: longhorn-system

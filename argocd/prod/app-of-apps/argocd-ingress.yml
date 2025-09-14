@@ -1,21 +1,21 @@
 ---
-# Sets up the cert-manager lets encrypt cluster issuers
+# Sets up the ingress for argocd
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager-issuers
+  name: argocd-ingress
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "4"
 spec:
   project: default
   sources:
     - repoURL: https://github.com/it-dfl/homelab.git
       targetRevision: HEAD
-      path: argocd/prod/cert-manager-issuers
+      path: argocd/prod/argocd-ingress
       helm:
-        valueFiles: # Email is in the private repo
-          - $private_repo/argocd/prod/cert-manager-issuers/values.yaml
+        valueFiles: # host is in the private repo
+          - $private_repo/argocd/prod/argocd-ingress/values.yaml
     - repoURL: https://github.com/it-dfl/homelab-private.git
       targetRevision: HEAD
       ref: private_repo
