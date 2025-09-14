@@ -16,6 +16,9 @@ spec:
           signupsAllowed: false
           podAnnotations:
             k8s.v1.cni.cncf.io/networks: vaultwarden-static
+          adminToken:
+            existingSecret: vaultwarden-admin-token
+            existingSecretKey: admin-token
         valueFiles: # Multus CNI and domain are in the private repo
           - $private_repo/argocd/prod/app-of-apps/vaultwarden.yaml
     - repoURL: https://github.com/it-dfl/homelab-private.git
