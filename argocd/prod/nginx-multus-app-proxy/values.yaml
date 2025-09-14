@@ -1,0 +1,9 @@
+app_name: my_app
+nginx_version: latest
+
+interface_name: eth0
+vlan_id: 1
+proxy_address: 192.168.100.100
+proxy_cidr: 24
+proxy_gateway: 192.168.100.1
+proxy_reroute_network: 19.168.100.0/24

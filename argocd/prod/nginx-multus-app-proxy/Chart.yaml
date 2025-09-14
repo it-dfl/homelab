@@ -1,0 +1,6 @@
+apiVersion: v2
+name: nginx-multus-app-proxy
+description: A Helm chart to deploy an nginx proxy with a static ip in a specific vlan
+type: application
+version: 0.1.0
+appVersion: "1.0"

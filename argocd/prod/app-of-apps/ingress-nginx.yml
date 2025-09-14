@@ -1,3 +1,5 @@
+---
+# Installs ingress-nginx via the official Helm chart
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:

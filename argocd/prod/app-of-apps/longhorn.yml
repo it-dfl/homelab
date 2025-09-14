@@ -1,3 +1,5 @@
+---
+# Installs longhorn via the official Helm chart
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -16,6 +18,8 @@ spec:
           defaultSettings:
             defaultDataPath: "/var/mnt/storage-data"
             defaultReplicaCount: 2
+          persistence:
+            defaultClassReplicaCount: 2
           preUpgradeChecker:
             jobEnabled: false
         valueFiles: # Ingress settings are in the private repo

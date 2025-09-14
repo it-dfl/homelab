@@ -1,0 +1,54 @@
+---
+# Create the nginx proxy deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Values.app_name }}-nginx-proxy-deployment"
+  namespace: "{{ .Release.Namespace }}"
+  labels:
+    app: "{{ .Values.app_name }}-proxy"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "{{ .Values.app_name }}-proxy"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Values.app_name }}-proxy"
+      annotations:
+        k8s.v1.cni.cncf.io/networks: "{{ .Values.multus.networkAttachmentName | default (printf \"%s-static\" .Values.app_name) }}"
+    spec:
+      containers:
+        - name: "{{ .Values.app_name }}-proxy-container"
+          image: "nginx:{{ .Values.nginx_version }}"
+          ports:
+            - name: http
+              containerPort: 80
+            - name: https
+              containerPort: 443
+          readinessProbe:
+            httpGet: { path: /, port: https, scheme: HTTPS }
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /, port: https, scheme: HTTPS }
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          volumeMounts:
+            - name: nginx-conf
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+            - name: tls
+              mountPath: /etc/nginx/tls
+              readOnly: true
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: "{{ .Values.app_name }}-nginx-proxy-conf"
+            items:
+              - key: nginx.conf
+                path: nginx.conf
+        - name: tls
+          secret:
+            secretName: "{{ .Values.app_name }}-tls"
