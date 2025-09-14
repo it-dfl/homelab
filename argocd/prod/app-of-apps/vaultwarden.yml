@@ -16,6 +16,8 @@ spec:
       helm:
         values: |
           signupsAllowed: false
+          timeZone: Europe/Berlin
+          orgGroupsEnabled: true
           adminToken:
             existingSecret: vaultwarden-admin-token
             existingSecretKey: admin-token
