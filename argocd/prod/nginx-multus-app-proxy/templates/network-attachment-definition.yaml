@@ -3,7 +3,7 @@
 apiVersion: k8s.cni.cncf.io/v1
 kind: NetworkAttachmentDefinition
 metadata:
-  name: "{{ printf \"%s-static\" .Values.app_name }}"
+  name: "{{ .Values.app_name }}-static"
   namespace: "{{ .Release.Namespace }}"
 spec:
   config: |

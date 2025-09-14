@@ -17,7 +17,7 @@ spec:
       labels:
         app: "{{ .Values.app_name }}-proxy"
       annotations:
-        k8s.v1.cni.cncf.io/networks: "{{ printf \"%s-static\" .Values.app_name }}"
+        k8s.v1.cni.cncf.io/networks: "{{ .Values.app_name }}-static"
     spec:
       containers:
         - name: "{{ .Values.app_name }}-proxy-container"
