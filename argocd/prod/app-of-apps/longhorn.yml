@@ -18,7 +18,7 @@ spec:
             defaultReplicaCount: 2
           preUpgradeChecker:
             jobEnabled: false
-        valuesFiles: # Ingress settings are in the private repo
+        valueFiles: # Ingress settings are in the private repo
           - $private_repo/argocd/prod/app-of-apps/longhorn-values.yaml
     - repoURL: https://github.com/it-dfl/homelab-private.git
       targetRevision: HEAD
