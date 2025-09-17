@@ -1,0 +1,31 @@
+---
+# Gateway for Longhorn
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: gw-longhorn
+  namespace: "{{ .Values.namespace }}"
+  labels:
+    vlan: "{{ .Values.vlan_id }}"
+    app: longhorn
+  annotations:
+    cert-manager.io/cluster-issuer: "{{ .Values.cluster_issuer_name }}"
+spec:
+  infrastructure:
+    labels:
+      vlan: "{{ .Values.vlan_id }}"
+      app: longhorn
+  gatewayClassName: cilium
+  addresses:
+    - type: IPAddress
+      value: "{{ .Values.argocd_external_ip }}"
+  listeners:
+    # HTTPS for longhorn
+    - name: https-longhorn
+      hostname: "{{ .Values.host }}"
+      protocol: HTTPS
+      port: 443
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: longhorn-tls  # cert-manager will create this Secret+Certificate

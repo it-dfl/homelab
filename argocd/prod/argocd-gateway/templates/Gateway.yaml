@@ -1,0 +1,27 @@
+---
+# Gateway for ArgoCD
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: gw-argocd
+  namespace: "{{ .Values.namespace }}"
+  labels:
+    vlan: "{{ .Values.vlan_id }}"
+    app: argocd
+spec:
+  infrastructure:
+    labels:
+      vlan: "{{ .Values.vlan_id }}"
+      app: argocd
+  gatewayClassName: cilium
+  addresses:
+    - type: IPAddress
+      value: "{{ .Values.argocd_external_ip }}"
+  listeners:
+    # TLS for argocd
+    - name: tls-argocd
+      hostname: "{{ .Values.host }}"
+      protocol: TLS
+      port: 443
+      tls:
+        mode: Passthrough

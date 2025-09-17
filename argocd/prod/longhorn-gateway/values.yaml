@@ -1,0 +1,6 @@
+namespace: argocd
+host: "argocd.example.com"
+vlan_id: 1
+interface_name: eth0
+argocd_external_ip: 192.168.1.101
+cluster_issuer_name: "letsencrypt-staging"

@@ -1,0 +1,18 @@
+---
+# TLS Route for ArgoCD
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TLSRoute
+metadata:
+  name: route-argocd-tls
+  namespace: argocd
+spec:
+  parentRefs:
+    - name: gw-argocd
+      sectionName: tls-argocd
+  hostnames:
+    - "{{ .Values.host }}"
+  rules:
+    - backendRefs:
+        - name: argocd-server
+          namespace: argocd
+          port: 443

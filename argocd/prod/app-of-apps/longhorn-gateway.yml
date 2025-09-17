@@ -1,27 +1,21 @@
 ---
-# Installs longhorn via the official Helm chart
+# Sets up the ingress for argocd
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: longhorn
+  name: longhorn-gateway
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-wave: "5"
 spec:
   project: default
   sources:
-    - chart: longhorn
-      repoURL: https://charts.longhorn.io/
-      targetRevision: v1.9.1
+    - repoURL: https://github.com/it-dfl/homelab.git
+      targetRevision: HEAD
+      path: argocd/prod/longhorn-gateway
       helm:
-        values: |
-          defaultSettings:
-            defaultDataPath: "/var/mnt/storage-data"
-            defaultReplicaCount: 2
-          persistence:
-            defaultClassReplicaCount: 2
-          preUpgradeChecker:
-            jobEnabled: false
+        valueFiles:
+          - $private_repo/argocd/prod/longhorn-gateway/values.yaml
     - repoURL: https://github.com/it-dfl/homelab-private.git
       targetRevision: HEAD
       ref: private_repo
