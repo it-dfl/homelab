@@ -1,9 +1,9 @@
 ---
-# Installs an nginx proxy from our own helm chart to provide access to vaultwarden
+# Sets up the gateway api for  vaultwarden
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: vaultwarden-proxy
+  name: vaultwarden-gateway
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "11"
@@ -12,15 +12,10 @@ spec:
   sources:
     - repoURL: https://github.com/it-dfl/homelab.git
       targetRevision: HEAD
-      path: argocd/prod/nginx-multus-app-proxy
+      path: argocd/prod/gateway-api-static-vlan-gateway
       helm:
-        values: |
-          app_name: vaultwarden
-          backend:
-            serviceName: vaultwarden
-            servicePort: 80
-        valueFiles: # IP address configuration for the multus nad and tls configuration is in the private repo
-          - $private_repo/argocd/prod/app-of-apps/vaultwarden-proxy.yaml
+        valueFiles: # all default overrides are in the private repo
+          - $private_repo/argocd/prod/app-of-apps/vaultwarden-gateway.yaml
     - repoURL: https://github.com/it-dfl/homelab-private.git
       targetRevision: HEAD
       ref: private_repo

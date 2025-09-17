@@ -1,0 +1,30 @@
+---
+# Gateway for my application
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: gw-{{ .Values.application_name }}
+  namespace: "{{ .Values.namespace }}"
+  labels:
+    vlan: "{{ .Values.vlan_id }}"
+    app: "{{ .Values.application_name }}"
+  annotations:
+    cert-manager.io/cluster-issuer: "{{ .Values.cluster_issuer_name }}"
+spec:
+  infrastructure:
+    labels:
+      vlan: "{{ .Values.vlan_id }}"
+      app: "{{ .Values.application_name }}"
+  gatewayClassName: cilium
+  addresses:
+    - type: IPAddress
+      value: "{{ .Values.gateway_external_ip }}"
+  listeners:
+    - name: https-{{ .Values.application_name }}
+      hostname: "{{ .Values.host }}"
+      protocol: HTTPS
+      port: {{ .Values.https_listening_port }}
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: "{{ .Values.application_name }}-tls"  # cert-manager will create this Secret+Certificate

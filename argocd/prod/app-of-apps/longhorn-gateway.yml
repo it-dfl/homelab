@@ -1,5 +1,5 @@
 ---
-# Sets up the ingress for argocd
+# Sets up the gateway api for longhorn
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:

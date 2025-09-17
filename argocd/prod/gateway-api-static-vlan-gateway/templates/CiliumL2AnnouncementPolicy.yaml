@@ -1,0 +1,14 @@
+---
+# Cilium L2 Announcement Policy for the application VLAN
+apiVersion: cilium.io/v2alpha1
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: "{{ .Values.application_name }}-{{ .Values.vlan_name }}-vlan-l2"
+spec:
+  serviceSelector:
+    matchLabels:
+      vlan: "{{ .Values.vlan_id }}"
+      app: "{{ .Values.application_name }}"
+  interfaces:
+    - ^{{ .Values.interface_name }}\.{{ .Values.vlan_id }}$
+  loadBalancerIPs: true

@@ -6,7 +6,7 @@ metadata:
   name: longhorn-mgmt-vlan-pool
 spec:
   blocks:
-    - cidr: {{ .Values.argocd_external_ip }}/32
+    - cidr: {{ .Values.longhorn_external_ip }}/32
   serviceSelector:
     matchLabels:
       vlan: "{{ .Values.vlan_id }}"
