@@ -36,4 +36,8 @@ spec:
   - toEndpoints:
     - matchLabels:
         "k8s:io.kubernetes.pod.namespace": "{{ .Values.namespace }}"
-{{- end }}
+  # allow egress to specific CIDR blocks (e.g. for external access)
+  {{- if .Values.egressCIDRSet }}
+  - toCIDRSet:
+    {{- toYaml .Values.egressCIDRSet | nindent 4 }}
+  {{- end }}
