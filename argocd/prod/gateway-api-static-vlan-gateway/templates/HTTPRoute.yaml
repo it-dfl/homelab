@@ -12,6 +12,14 @@ spec:
   hostnames:
     - "{{ .Values.host }}"
   rules:
+    {{- if .Values.blockedPathPrefixes }}
+    {{- range $prefix := .Values.blockedPathPrefixes }}
+    - matches:
+        - path:
+            type: PathPrefix
+            value: {{ $prefix }}
+    {{- end }}
+    {{- end }}
     - backendRefs:
         - name: "{{ .Values.service_name }}"
           namespace: "{{ .Values.namespace }}"

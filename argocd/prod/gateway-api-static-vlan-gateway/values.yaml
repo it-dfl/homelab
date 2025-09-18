@@ -12,3 +12,4 @@ https_listening_port: 443
 isolateNamespace: true
 loadBalancerSourceRanges: []
 egressCIDRSet: []
+blockedPathPrefixes: []
