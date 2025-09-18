@@ -41,3 +41,4 @@ spec:
   - toCIDRSet:
     {{- toYaml .Values.egressCIDRSet | nindent 4 }}
   {{- end }}
+{{- end }}
