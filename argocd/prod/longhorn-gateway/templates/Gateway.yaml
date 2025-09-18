@@ -18,7 +18,7 @@ spec:
   gatewayClassName: cilium
   addresses:
     - type: IPAddress
-      value: "{{ .Values.argocd_external_ip }}"
+      value: "{{ .Values.longhorn_external_ip }}"
   listeners:
     # HTTPS for longhorn
     - name: https-longhorn

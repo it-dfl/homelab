@@ -6,3 +6,4 @@ jsonpatch
 proxmoxer
 ansible-core>=2.12
 jmespath
+netaddr
