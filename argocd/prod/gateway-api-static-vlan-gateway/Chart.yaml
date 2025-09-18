@@ -1,6 +1,6 @@
 apiVersion: v2
-name: argocd-ingress
-description: A Helm chart to deploy gateway api for argocd
+name: gateway-api-static-vlan-gateway
+description: A Helm chart to deploy gateway api for my_app and isolates the namespace via a static vlan
 type: application
 version: 0.1.0
 appVersion: "1.0"

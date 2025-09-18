@@ -1,0 +1,39 @@
+---
+# A CiliumNetworkPolicy to restrict traffic to the gateway API and the rest of the namespace
+{{- if .Values.isolateNamespace }}
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: ns-baseline
+  namespace: "{{ .Values.namespace }}"
+spec:
+  endpointSelector: {}  # all pods in this namespace
+
+  ingress:
+  # allow same-namespace traffic
+  - fromEndpoints:
+    - matchLabels:
+        "k8s:io.kubernetes.pod.namespace": "{{ .Values.namespace }}"
+  # allow traffic coming via Cilium Gateway/Ingress (Envoy)
+  - fromEntities: ["ingress"]
+
+  egress:
+  # allow DNS to CoreDNS (adjust label to your cluster)
+  - toEndpoints:
+    - matchLabels:
+        "k8s:io.kubernetes.pod.namespace": kube-system
+        "k8s:k8s-app": kube-dns
+    toPorts:
+    - ports:
+      - port: "53"
+        protocol: ANY
+      rules:
+        dns:
+        - matchPattern: "*"
+  # allow kube-apiserver (no hardcoding of IPs)
+  - toEntities: ["kube-apiserver"]
+  # allow same-namespace egress
+  - toEndpoints:
+    - matchLabels:
+        "k8s:io.kubernetes.pod.namespace": "{{ .Values.namespace }}"
+{{- end }}

@@ -9,3 +9,5 @@ interface_name: eth0
 gateway_external_ip: 192.168.1.101
 cluster_issuer_name: "letsencrypt-staging"
 https_listening_port: 443
+isolateNamespace: true
+loadBalancerSourceRanges: []

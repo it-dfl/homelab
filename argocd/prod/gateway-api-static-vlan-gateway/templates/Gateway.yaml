@@ -11,6 +11,10 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: "{{ .Values.cluster_issuer_name }}"
 spec:
+{{- if .Values.loadBalancerSourceRanges }}
+  loadBalancerSourceRanges:
+    {{- toYaml .Values.loadBalancerSourceRanges | nindent 2 }}
+{{- end }}
   infrastructure:
     labels:
       vlan: "{{ .Values.vlan_id }}"
