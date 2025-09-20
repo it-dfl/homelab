@@ -15,7 +15,7 @@ spec:
       path: argocd/prod/gateway-api-static-vlan-gateway
       helm:
         valueFiles: # all default overrides are in the private repo
-          - $private_repo/argocd/prod/app-of-apps/vaultwarden-gateway.yaml
+          - $private_repo/argocd/prod/vaultwarden/gateway-values.yaml
     - repoURL: https://github.com/it-dfl/homelab-private.git
       targetRevision: HEAD
       ref: private_repo

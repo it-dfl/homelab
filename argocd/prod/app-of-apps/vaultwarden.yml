@@ -35,7 +35,7 @@ spec:
               keepPvc: true
               accessMode: ReadWriteOnce
         valueFiles: # Multus CNI, smtp and domain are in the private repo
-          - $private_repo/argocd/prod/app-of-apps/vaultwarden.yaml
+          - $private_repo/argocd/prod/vaultwarden/values.yaml
     - repoURL: https://github.com/it-dfl/homelab-private.git
       targetRevision: HEAD
       ref: private_repo

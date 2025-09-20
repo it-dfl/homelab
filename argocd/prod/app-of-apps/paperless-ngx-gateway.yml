@@ -1,27 +1,27 @@
 ---
-# Sets up the gateway api for longhorn
+# Sets up the gateway api for  vaultwarden
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: longhorn-gateway
+  name: paperless-ngx-gateway
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-wave: "21"
 spec:
   project: default
   sources:
     - repoURL: https://github.com/it-dfl/homelab.git
       targetRevision: HEAD
-      path: argocd/prod/longhorn-gateway
+      path: argocd/prod/gateway-api-static-vlan-gateway
       helm:
-        valueFiles:
-          - $private_repo/argocd/prod/longhorn/gateway-values.yaml
+        valueFiles: # all default overrides are in the private repo
+          - $private_repo/argocd/prod/paperless-ngx/gateway-values.yaml
     - repoURL: https://github.com/it-dfl/homelab-private.git
       targetRevision: HEAD
       ref: private_repo
   destination:
     server: https://kubernetes.default.svc
-    namespace: longhorn-system
+    namespace: paperless-ngx
   syncPolicy:
     automated:
       prune: true

@@ -15,7 +15,7 @@ spec:
       path: argocd/prod/argocd-gateway
       helm:
         valueFiles:
-          - $private_repo/argocd/prod/argocd-gateway/values.yaml
+          - $private_repo/argocd/prod/argocd/gateway-values.yaml
     - repoURL: https://github.com/it-dfl/homelab-private.git
       targetRevision: HEAD
       ref: private_repo

@@ -15,7 +15,7 @@ spec:
       path: argocd/prod/cert-manager-issuers
       helm:
         valueFiles: # Email is in the private repo
-          - $private_repo/argocd/prod/cert-manager-issuers/values.yaml
+          - $private_repo/argocd/prod/cert-manager/issuer-values.yaml
     - repoURL: https://github.com/it-dfl/homelab-private.git
       targetRevision: HEAD
       ref: private_repo

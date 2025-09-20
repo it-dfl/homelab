@@ -22,9 +22,6 @@ spec:
             defaultClassReplicaCount: 2
           preUpgradeChecker:
             jobEnabled: false
-    - repoURL: https://github.com/it-dfl/homelab-private.git
-      targetRevision: HEAD
-      ref: private_repo
   destination:
     server: https://kubernetes.default.svc
     namespace: longhorn-system

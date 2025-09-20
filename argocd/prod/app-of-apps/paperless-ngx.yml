@@ -1,0 +1,97 @@
+---
+# Set up paperless ngx using 
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: paperless-ngx
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "20"
+spec:
+  project: default
+  sources:
+    - repoURL: oci://ghcr.io/gabe565/charts/paperless-ngx
+      chart: paperless-ngx
+      targetRevision: 0.24.1
+      helm:
+        valueFiles: # env vars (time zone, language, url, etc are set in the private repo)
+          - $private_repo/argocd/prod/paperless-ngx/values.yaml
+        values: |
+          # create this out-of-band; it shout contains:
+          #  PAPERLESS_SECRET_KEY
+          #  PAPERLESS_ADMIN_USER
+          #  PAPERLESS_ADMIN_PASSWORD
+          controllers:
+            main:
+              containers:
+                main:
+                  envFrom:
+                    - secretRef:
+                        name: paperless-secret 
+          image:
+            repository: ghcr.io/paperless-ngx/paperless-ngx
+            pullPolicy: IfNotPresent
+            tag: 2.18.4
+
+          persistence:
+            data:
+              enabled: true
+              accessMode: ReadWriteOnce
+              size: 20Gi
+              storageClass: longhorn
+            media:
+              enabled: true
+              accessMode: ReadWriteOnce
+              size: 20Gi
+              storageClass: longhorn
+            consume:
+              enabled: true
+              accessMode: ReadWriteOnce
+              size: 5Gi
+              storageClass: longhorn
+            export:
+              enabled: true
+              accessMode: ReadWriteOnce
+              size: 5Gi
+              storageClass: longhorn
+
+          # --- service -----------------------------------------------------------------
+          service:
+            main:
+              ports:
+                http:
+                  port: 8000
+
+          # --- ingress disabled (you use Gateway API) ----------------------------------
+          ingress:
+            main:
+              enabled: false
+
+          # --- Redis subchart (simple single-node) -------------------------------------
+          # Enabling this automatically sets PAPERLESS_REDIS for you.
+          redis:
+            enabled: true
+            architecture: standalone
+            master:
+              persistence:
+                enabled: true
+                size: 2Gi
+                storageClass: longhorn
+
+          # --- Databases disabled (start with SQLite) ----------------------------------
+          postgresql:
+            enabled: false
+          mariadb:
+            enabled: false
+    - repoURL: https://github.com/it-dfl/homelab-private.git
+      targetRevision: HEAD
+      ref: private_repo
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: paperless-ngx
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
