@@ -21,13 +21,9 @@ spec:
           #  PAPERLESS_SECRET_KEY
           #  PAPERLESS_ADMIN_USER
           #  PAPERLESS_ADMIN_PASSWORD
-          controllers:
-            main:
-              containers:
-                main:
-                  envFrom:
-                    - secretRef:
-                        name: paperless-secret 
+          envFrom:
+            - secretRef:
+                name: paperless-secret 
           image:
             repository: ghcr.io/paperless-ngx/paperless-ngx
             pullPolicy: IfNotPresent
