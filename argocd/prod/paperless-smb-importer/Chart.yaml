@@ -1,0 +1,6 @@
+apiVersion: v2
+name: paperless-smb-importer
+description: A Helm chart to deploy SMB importer for paperless-ngx
+type: application
+version: 0.1.0
+appVersion: "1.0"

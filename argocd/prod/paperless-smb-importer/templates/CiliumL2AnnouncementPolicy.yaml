@@ -1,0 +1,14 @@
+---
+# Cilium L2 Announcement Policy for the management VLAN
+apiVersion: cilium.io/v2alpha1
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: paperless-smb-vlan-l2
+spec:
+  serviceSelector:
+    matchLabels:
+      vlan: "{{ .Values.vlan_id }}"
+      app: paperless-smb-importer
+  interfaces:
+    - ^{{ .Values.interface_name }}\.{{ .Values.vlan_id }}$
+  loadBalancerIPs: true

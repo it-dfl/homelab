@@ -1,0 +1,14 @@
+---
+# Create an SMB security config with a user for paperless-ngx to use to access the share
+apiVersion: samba-operator.samba.org/v1alpha1
+kind: SmbSecurityConfig
+metadata:
+  name: scans-sec
+  namespace: paperless-ngx
+spec:
+  users:
+    - name: scanuser
+      passwordSecret: samba-creds 
+      # Create this secret with:
+      # users: |
+      #  scanuser:yourpassword

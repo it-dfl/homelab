@@ -1,0 +1,16 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-smb-from-lan
+  namespace: paperless
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: samba-server   # <- label on your Samba pod
+  ingress:
+  - fromCIDRSet:
+    - cidr: "{{ .Values.lan_cidr }}"
+    toPorts:
+    - ports:
+      - port: "445"
+        protocol: TCP

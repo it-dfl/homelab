@@ -1,0 +1,28 @@
+---
+# Generate SMB configuration for paperless-ngx importer
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: paperless-smb-importer
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "26"
+spec:
+  project: default
+  sources:
+    - repoURL: https://github.com/it-dfl/homelab.git
+      targetRevision: HEAD
+      path: argocd/prod/paperless-smb-importer
+      helm:
+        valueFiles:
+          - $private_repo/argocd/prod/paperless-ngx/smb-importer-values.yaml
+    - repoURL: https://github.com/it-dfl/homelab-private.git
+      targetRevision: HEAD
+      ref: private_repo
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: paperless-ngx
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,23 @@
+---
+# Create a loadbalancer service with static IP to make smb accessible from outside the cluster
+apiVersion: v1
+kind: Service
+metadata:
+  name: scans-smb
+  namespace: paperless-ngx
+  labels:
+    vlan: "{{ .Values.vlan_id }}"
+    app: paperless-smb-importer
+spec:
+  type: LoadBalancer
+  loadBalancerIP: "{{ .Values.external_ip }}"
+  ports:
+    - name: smb
+      port: 445
+      targetPort: 445
+      protocol: TCP
+  selector:
+    # Match the operator-managed Samba server pods servicing this share.
+    # (The operator labels pods; check with `kubectl get pods -n paperless --show-labels`
+    # and adjust if needed.)
+    app.kubernetes.io/name: samba-server

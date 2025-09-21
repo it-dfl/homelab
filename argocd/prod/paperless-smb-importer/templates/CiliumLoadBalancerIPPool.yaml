@@ -1,0 +1,13 @@
+---
+# IP pool for the Cilium load balancer in the management VLAN
+apiVersion: cilium.io/v2
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: paperless-smb-vlan-pool
+spec:
+  blocks:
+    - cidr: {{ .Values.external_ip }}/32
+  serviceSelector:
+    matchLabels:
+      vlan: "{{ .Values.vlan_id }}"
+      app: paperless-smb-importer
