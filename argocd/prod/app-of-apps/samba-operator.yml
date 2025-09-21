@@ -15,7 +15,7 @@ spec:
     path: config/default
   destination:
     server: https://kubernetes.default.svc
-    namespace: samba-operator
+    namespace: samba-operator-system
   syncPolicy:
     automated:
       prune: true
