@@ -1,0 +1,39 @@
+---
+# Deploy samba server for paperless-ng import
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: smb-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smb-server
+  template:
+    metadata:
+      name: smb-server
+      labels:
+        app: smb-server
+    spec:
+      volumes:
+        - name: smb-volume
+          persistentVolumeClaim:
+            claimName: paperless-ngx-consume
+      containers:
+        - name: smb-server
+          image: dperson/samba:latest
+          env:
+            - name: PERMISSIONS
+              value: ""
+            - name: USER
+              valueFrom:
+                secretKeyRef:
+                  name: samba-creds
+                  key: user
+            - name: SHARE
+              value: "share;/smbshare/;yes;no;no;all;none"
+          volumeMounts:
+            - mountPath: /smbshare
+              name: smb-volume
+          ports:
+            - containerPort: 445

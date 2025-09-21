@@ -17,4 +17,4 @@ spec:
       targetPort: 445
       protocol: TCP
   selector:
-    app.kubernetes.io/name: samba
+    app: smb-server
