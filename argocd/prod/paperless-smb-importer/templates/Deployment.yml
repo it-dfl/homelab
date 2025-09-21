@@ -23,6 +23,10 @@ spec:
         - name: smb-server
           image: dperson/samba:latest
           env:
+            - name: USERID
+              value: "1000"
+            - name: GROUPID
+              value: "1000"
             - name: PERMISSIONS
               value: ""
             - name: USER

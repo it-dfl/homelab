@@ -10,6 +10,7 @@ metadata:
     app: paperless-smb-importer
 spec:
   type: LoadBalancer
+  sessionAffinity: ClientIP
   loadBalancerIP: "{{ .Values.external_ip }}"
   ports:
     - name: smb
