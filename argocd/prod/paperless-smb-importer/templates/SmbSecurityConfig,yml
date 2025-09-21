@@ -9,6 +9,3 @@ spec:
   users:
     secret: samba-creds
     key: users
-      # Create this secret with:
-      # users: |
-      #  scanuser:yourpassword

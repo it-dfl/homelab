@@ -6,7 +6,7 @@ metadata:
 spec:
   endpointSelector:
     matchLabels:
-      app.kubernetes.io/name: samba-server   # <- label on your Samba pod
+      app.kubernetes.io/name: samba
   ingress:
   - fromCIDRSet:
     - cidr: "{{ .Values.lan_cidr }}"
