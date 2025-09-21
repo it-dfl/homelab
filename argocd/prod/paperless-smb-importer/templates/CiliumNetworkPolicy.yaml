@@ -8,8 +8,7 @@ spec:
     matchLabels:
       app: smb-server
   ingress:
-  - fromCIDRSet:
-    - cidr: "{{ .Values.lan_cidr }}"
+  - fromEntities: ["world"]
     toPorts:
     - ports:
       - port: "445"

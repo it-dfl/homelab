@@ -1,4 +1,3 @@
 vlan_id: 1
 interface_name: eth0
 external_ip: 192.168.1.101
-lan_cidr: 192.168.1.0/24
