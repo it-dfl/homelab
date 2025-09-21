@@ -7,8 +7,8 @@ metadata:
   namespace: paperless-ngx
 spec:
   users:
-    - name: scanuser
-      passwordSecret: samba-creds 
+    secret: samba-creds
+    key: users
       # Create this secret with:
       # users: |
       #  scanuser:yourpassword
