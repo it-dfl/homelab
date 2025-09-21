@@ -13,7 +13,6 @@ spec:
     repoURL: https://github.com/samba-in-kubernetes/samba-operator.git
     targetRevision: v0.6
     path: config/default
-    kustomize: {}
   destination:
     server: https://kubernetes.default.svc
     namespace: samba-operator
