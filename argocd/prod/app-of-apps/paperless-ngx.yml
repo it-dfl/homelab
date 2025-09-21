@@ -42,7 +42,7 @@ spec:
               storageClass: longhorn
             consume:
               enabled: true
-              accessMode: ReadWriteOnce
+              accessMode: ReadWriteMany
               size: 5Gi
               storageClass: longhorn
             export:
